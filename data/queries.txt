@@ -1,0 +1,36 @@
+------------------------------------DDL Commands-----------------------------------------
+CREATE TABLE public.Budgets (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    remaining_amount DECIMAL(10, 2) NOT NULL,
+    start_date DATE,
+    end_date DATE,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE public.Expenses (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    date DATE NOT NULL,
+    description TEXT,
+    budget_id INT NOT NULL,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (budget_id) REFERENCES public.budgets(id)
+);
+
+--------------------------DML Commands--------------------------------------------------
+
+INSERT INTO public.Budgets (name, total_amount, remaining_amount, start_date, end_date)
+VALUES ('Monthly Expenses', 2000.00, 1500.00, '2024-07-01', '2024-07-31'),
+       ('Travel Fund', 500.00, 500.00, '2024-07-01', '2024-12-31');
+      
+INSERT INTO public.Expenses (name, amount, date, description, budget_id)
+VALUES ('Groceries', 250.00, '2024-07-05', 'Weekly groceries shopping', 1),
+       ('Gasoline', 50.00, '2024-07-04', 'Fuel for the car', 1),
+       ('Flight Tickets', 300.00, '2024-07-10', 'Round trip tickets', 2),
+       ('Hotel Stay', 150.00, '2024-07-15', 'Accommodation during travel', 2);
+
